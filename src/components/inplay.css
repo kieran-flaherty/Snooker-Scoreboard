@@ -1,0 +1,28 @@
+.badge-red {
+  background-color: red;
+}
+
+.badge-yellow {
+  background-color: yellow;
+}
+
+.badge-green {
+  background-color: green;
+}
+
+.badge-brown {
+  background-color: sienna;
+}
+
+.badge-blue {
+  background-color: blue;
+}
+
+.badge-pink {
+  background-color: pink;
+}
+
+.badge-black {
+  background-color: black;
+  color: white;
+}

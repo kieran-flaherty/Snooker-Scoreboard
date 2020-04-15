@@ -3,6 +3,16 @@ import "./App.css";
 import Player from "./components/player";
 import InPlay from "./components/inplay";
 
+const ballValues = {
+  red: 1,
+  yellow: 2,
+  green: 3,
+  brown: 4,
+  blue: 5,
+  pink: 6,
+  black: 7,
+};
+
 class App extends Component {
   // Test state
   state = {
@@ -10,11 +20,13 @@ class App extends Component {
       name: "Ronnie O'Sullivan",
       frames: 0,
       score: 15,
+      break: 15,
     },
     player2: {
       name: "Judd Trump",
       frames: 0,
       score: 0,
+      break: null,
     },
     table: {
       red: 13,
@@ -25,6 +37,18 @@ class App extends Component {
       pink: 1,
       black: 1,
     },
+    playerAtTable: "player1",
+  };
+
+  handlePot = (color) => {
+    let ballScore = ballValues[color];
+    let playerScore = this.state[this.state.playerAtTable].score + ballScore;
+    let playerBreak = this.state[this.state.playerAtTable].break + ballScore;
+    let newState = { ...this.state };
+    newState[this.state.playerAtTable].score = playerScore;
+    newState[this.state.playerAtTable].break = playerBreak;
+    newState.table[color] -= 1;
+    this.setState(newState);
   };
 
   render() {
@@ -32,7 +56,7 @@ class App extends Component {
       <div className="App">
         <Player {...this.state.player1} />
         <Player {...this.state.player2} />
-        <InPlay {...this.state.table} />
+        <InPlay table={this.state.table} onPot={this.handlePot} />
       </div>
     );
   }

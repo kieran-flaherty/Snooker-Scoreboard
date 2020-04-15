@@ -1,19 +1,28 @@
 import React, { Component } from "react";
 import "./inplay.css";
 
-const InPlay = (props) => {
-  return (
-    <div>
-      {/* Todo: render this dynamically */}
-      <span className="badge badge-red">{props.red}</span>
-      <span className="badge badge-yellow">{props.yellow}</span>
-      <span className="badge badge-green">{props.green}</span>
-      <span className="badge badge-brown">{props.brown}</span>
-      <span className="badge badge-blue">{props.blue}</span>
-      <span className="badge badge-pink">{props.pink}</span>
-      <span className="badge badge-black">{props.black}</span>
-    </div>
-  );
-};
+class InPlay extends Component {
+  getButtonForColor = (color) => {
+    const colorClassName = "badge badge-" + color;
+    return (
+      <button
+        className="btn btn-sm p-1"
+        onClick={() => this.props.onPot(color)}
+      >
+        <span className={colorClassName}>{this.props.table[color]}</span>
+      </button>
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        {Object.keys(this.props.table).map((color) => {
+          return this.getButtonForColor(color);
+        })}
+      </div>
+    );
+  }
+}
 
 export default InPlay;

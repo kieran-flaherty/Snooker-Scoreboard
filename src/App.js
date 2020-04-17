@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Player from "./components/player";
-import InPlay from "./components/inplay";
+import ButtonPanel from "./components/inplay";
 
 const ballValues = {
   red: 1,
@@ -79,7 +79,7 @@ class App extends Component {
       <div className="App">
         <Player {...this.state.player1} />
         <Player {...this.state.player2} />
-        <InPlay table={this.state.table} onPot={this.handlePot} />
+        <ButtonPanel table={this.state.table} onPot={this.handlePot} />
       </div>
     );
   }

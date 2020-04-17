@@ -13,6 +13,8 @@ const ballValues = {
   black: 7,
 };
 
+const colorOrder = ["yellow", "green", "brown", "blue", "pink", "black"];
+
 class App extends Component {
   // Test state
   state = {
@@ -29,13 +31,16 @@ class App extends Component {
       break: null,
     },
     table: {
-      red: 13,
-      yellow: 1,
-      green: 1,
-      brown: 1,
-      blue: 1,
-      pink: 1,
-      black: 1,
+      colors: {
+        red: 13,
+        yellow: 1,
+        green: 1,
+        brown: 1,
+        blue: 1,
+        pink: 1,
+        black: 1,
+      },
+      on: "red",
     },
     playerAtTable: "player1",
   };
@@ -47,8 +52,26 @@ class App extends Component {
     let newState = { ...this.state };
     newState[this.state.playerAtTable].score = playerScore;
     newState[this.state.playerAtTable].break = playerBreak;
-    newState.table[color] -= 1;
+    newState.table = this.handleRespot(color, newState.table);
     this.setState(newState);
+  };
+
+  handleRespot = (color, table) => {
+    if (table.on === "red") {
+      table.colors[color] -= 1;
+      table.on = "color";
+    } else if (table.on === "color") {
+      table.on = table.colors.red === 0 ? "yellow" : "red";
+    } else {
+      table.colors[color] -= 1;
+      if (color != "black") {
+        let nextColor = colorOrder[colorOrder.indexOf(color) + 1];
+        table.on = nextColor;
+      } else {
+        table.on = null;
+      }
+    }
+    return table;
   };
 
   render() {

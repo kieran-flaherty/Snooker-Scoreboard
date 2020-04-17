@@ -8,16 +8,32 @@ class InPlay extends Component {
       <button
         className="btn btn-sm p-1"
         onClick={() => this.props.onPot(color)}
+        key={color}
       >
-        <span className={colorClassName}>{this.props.table[color]}</span>
+        <span className={colorClassName}>{color}</span>
       </button>
     );
   };
 
   render() {
+    let availableBalls = [];
+    switch (this.props.table.on) {
+      case null:
+        break;
+      case "red":
+        availableBalls = ["red"];
+        break;
+      case "color":
+        availableBalls = Object.keys(this.props.table.colors).filter(
+          (b) => b != "red"
+        );
+        break;
+      default:
+        availableBalls = [this.props.table.on];
+    }
     return (
       <div>
-        {Object.keys(this.props.table).map((color) => {
+        {availableBalls.map((color) => {
           return this.getButtonForColor(color);
         })}
       </div>

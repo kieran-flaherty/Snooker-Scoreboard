@@ -25,14 +25,14 @@ class InPlay extends Component {
         break;
       case "color":
         availableBalls = Object.keys(this.props.table.colors).filter(
-          (b) => b != "red"
+          (b) => b !== "red"
         );
         break;
       default:
         availableBalls = [this.props.table.on];
     }
     return (
-      <div>
+      <div class="text-center">
         {availableBalls.map((color) => {
           return this.getButtonForColor(color);
         })}

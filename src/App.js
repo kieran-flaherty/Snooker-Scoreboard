@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Player from "./components/player";
 import ButtonPanel from "./components/inplay";
+import Players from "./components/players";
 
 const ballValues = {
   red: 1,
@@ -64,7 +65,7 @@ class App extends Component {
       table.on = table.colors.red === 0 ? "yellow" : "red";
     } else {
       table.colors[color] -= 1;
-      if (color != "black") {
+      if (color !== "black") {
         let nextColor = colorOrder[colorOrder.indexOf(color) + 1];
         table.on = nextColor;
       } else {
@@ -74,12 +75,19 @@ class App extends Component {
     return table;
   };
 
+  handleEndTurn = () => {};
+
+  handleFoul = () => {};
+
   render() {
     return (
       <div className="App">
-        <Player {...this.state.player1} />
-        <Player {...this.state.player2} />
-        <ButtonPanel table={this.state.table} onPot={this.handlePot} />
+        <Players player1={this.state.player1} player2={this.state.player2} />
+        <ButtonPanel
+          table={this.state.table}
+          onPot={this.handlePot}
+          onEndTurn={this.handleEndTurn}
+        />
       </div>
     );
   }

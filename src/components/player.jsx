@@ -2,10 +2,10 @@ import React from "react";
 
 const Player = (props) => {
   return (
-    <React.Fragment>
+    <div id={props.id} class="p-2 text-center">
       <h4>{props.name}</h4>
       <h4>{props.score}</h4>
-    </React.Fragment>
+    </div>
   );
 };
 

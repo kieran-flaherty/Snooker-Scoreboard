@@ -95,7 +95,9 @@ class App extends Component {
         }
       }
     }
+    newState[this.state.playerAtTable].break = null;
     newState.playerAtTable = getOtherPlayer(this.state.playerAtTable);
+    newState[newState.playerAtTable].break = 0;
     this.setState(newState);
   };
 

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import Player from "./components/player";
-import ButtonPanel from "./components/inplay";
+import ButtonPanel from "./components/buttonPanel";
 import Players from "./components/players";
 
 const ballValues = {
@@ -15,6 +14,16 @@ const ballValues = {
 };
 
 const colorOrder = ["yellow", "green", "brown", "blue", "pink", "black"];
+
+const getOtherPlayer = (player) => {
+  if (player === "player1") {
+    return "player2";
+  } else if (player === "player2") {
+    return "player1";
+  } else {
+    throw `Not a player: ${player}`;
+  }
+};
 
 class App extends Component {
   // Test state
@@ -75,17 +84,43 @@ class App extends Component {
     return table;
   };
 
-  handleEndTurn = () => {};
+  handleEndTurn = () => {
+    let newState = { ...this.state };
+    if (this.state.table.on !== "red") {
+      if (this.state.table.on === "color") {
+        if (this.state.table.colors.red > 0) {
+          newState.table.on = "red";
+        } else {
+          newState.table.on = "yellow";
+        }
+      }
+    }
+    newState.playerAtTable = getOtherPlayer(this.state.playerAtTable);
+    this.setState(newState);
+  };
 
-  handleFoul = () => {};
+  handleFoul = (color) => {
+    let foulValue = ballValues[color];
+    let otherPlayer = getOtherPlayer(this.state.playerAtTable);
+    let otherPlayerScore = this.state[otherPlayer].score + foulValue;
+    let newState = { ...this.state };
+    newState[otherPlayer].score = otherPlayerScore;
+    this.setState(newState);
+    this.handleEndTurn();
+  };
 
   render() {
     return (
       <div className="App">
-        <Players player1={this.state.player1} player2={this.state.player2} />
+        <Players
+          player1={this.state.player1}
+          player2={this.state.player2}
+          playerAtTable={this.state.playerAtTable}
+        />
         <ButtonPanel
           table={this.state.table}
           onPot={this.handlePot}
+          onFoul={this.handleFoul}
           onEndTurn={this.handleEndTurn}
         />
       </div>

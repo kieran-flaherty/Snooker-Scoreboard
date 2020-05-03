@@ -45,6 +45,9 @@ class ButtonPanel extends Component {
           {availableBalls.map((color) => {
             return this.getButtonForColor(color, false);
           })}
+          <button className="btn btn-lg p-1" onClick={this.props.onEndTurn}>
+            <span className="badge badge-light">No Score</span>
+          </button>
         </div>
         <div className="text-center">
           {fouls.map((foul) => {

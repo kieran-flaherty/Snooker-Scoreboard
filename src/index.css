@@ -7,3 +7,8 @@ body {
   background-color: lightgrey;
   height: 100%;
 }
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

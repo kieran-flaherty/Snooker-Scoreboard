@@ -2,28 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import ButtonPanel from "./components/buttonPanel";
 import Players from "./components/players";
-
-const ballValues = {
-  red: 1,
-  yellow: 2,
-  green: 3,
-  brown: 4,
-  blue: 5,
-  pink: 6,
-  black: 7,
-};
-
-const colorOrder = ["yellow", "green", "brown", "blue", "pink", "black"];
-
-const getOtherPlayer = (player) => {
-  if (player === "player1") {
-    return "player2";
-  } else if (player === "player2") {
-    return "player1";
-  } else {
-    throw `Not a player: ${player}`;
-  }
-};
+import Helpers from "./helpers";
 
 class App extends Component {
   // Test state
@@ -56,7 +35,7 @@ class App extends Component {
   };
 
   handlePot = (color) => {
-    let ballScore = ballValues[color];
+    let ballScore = Helpers.ballValues[color];
     let playerScore = this.state[this.state.playerAtTable].score + ballScore;
     let playerBreak = this.state[this.state.playerAtTable].break + ballScore;
     let newState = { ...this.state };
@@ -75,7 +54,8 @@ class App extends Component {
     } else {
       table.colors[color] -= 1;
       if (color !== "black") {
-        let nextColor = colorOrder[colorOrder.indexOf(color) + 1];
+        let nextColor =
+          Helpers.colorOrder[Helpers.colorOrder.indexOf(color) + 1];
         table.on = nextColor;
       } else {
         table.on = null;
@@ -96,14 +76,14 @@ class App extends Component {
       }
     }
     newState[this.state.playerAtTable].break = null;
-    newState.playerAtTable = getOtherPlayer(this.state.playerAtTable);
+    newState.playerAtTable = Helpers.getOtherPlayer(this.state.playerAtTable);
     newState[newState.playerAtTable].break = 0;
     this.setState(newState);
   };
 
   handleFoul = (color) => {
-    let foulValue = ballValues[color];
-    let otherPlayer = getOtherPlayer(this.state.playerAtTable);
+    let foulValue = Helpers.ballValues[color];
+    let otherPlayer = Helpers.getOtherPlayer(this.state.playerAtTable);
     let otherPlayerScore = this.state[otherPlayer].score + foulValue;
     let newState = { ...this.state };
     newState[otherPlayer].score = otherPlayerScore;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./buttonPanel.css";
+import Helpers from "./../helpers";
 
 const fouls = ["brown", "blue", "pink", "black"];
 
@@ -18,7 +19,11 @@ class ButtonPanel extends Component {
         }}
         key={color}
       >
-        <span className={colorClassName}>{foul ? "Foul" : "Pot"}</span>
+        <span className={colorClassName}>
+          {foul
+            ? `Foul(${Helpers.ballValues[color]})`
+            : `Pot(${Helpers.ballValues[color]})`}
+        </span>
       </button>
     );
   };

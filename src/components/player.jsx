@@ -5,9 +5,10 @@ const BreakText = (props) => {
 };
 
 const Player = (props) => {
-  const classText = `m-1 text-center w-50 ${
-    props.atTable ? "border rounded current-player" : ""
-  }`;
+  let classText = "m-1 text-center w-50 ";
+  if (props.atTable) {
+    classText += "border rounded current-player";
+  }
   return (
     <div id={props.id} className={classText}>
       <h3>{props.name}</h3>

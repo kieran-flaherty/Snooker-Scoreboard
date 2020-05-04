@@ -1,38 +1,43 @@
-import React, { Component } from "react";
+import React, { Component, createContext } from "react";
 import "./App.css";
 import ButtonPanel from "./components/buttonPanel";
 import Players from "./components/players";
 import Helpers from "./helpers";
 
 class App extends Component {
-  // Test state
-  state = {
-    player1: {
-      name: "Ronnie O'Sullivan",
-      frames: 0,
-      score: 15,
-      break: 15,
-    },
-    player2: {
-      name: "Judd Trump",
-      frames: 0,
-      score: 0,
-      break: null,
-    },
-    table: {
-      colors: {
-        red: 13,
-        yellow: 1,
-        green: 1,
-        brown: 1,
-        blue: 1,
-        pink: 1,
-        black: 1,
+  constructor(props) {
+    super(props);
+    this.state = {
+      player1: {
+        name: "Ronnie O'Sullivan",
+        frames: 1,
+        score: 54,
+        break: 0,
       },
-      on: "red",
-    },
-    playerAtTable: "player1",
-  };
+      player2: {
+        name: "Judd Trump",
+        frames: 0,
+        score: 61,
+        break: null,
+      },
+      table: {
+        colors: {
+          red: 2,
+          yellow: 1,
+          green: 1,
+          brown: 1,
+          blue: 1,
+          pink: 1,
+          black: 1,
+        },
+        blackRespotted: null,
+        on: "red",
+      },
+      playerAtTable: "player1",
+      winner: null,
+      inPlay: true,
+    };
+  }
 
   handlePot = (color) => {
     let ballScore = Helpers.ballValues[color];
@@ -41,27 +46,22 @@ class App extends Component {
     let newState = { ...this.state };
     newState[this.state.playerAtTable].score = playerScore;
     newState[this.state.playerAtTable].break = playerBreak;
-    newState.table = this.handleRespot(color, newState.table);
-    this.setState(newState);
-  };
-
-  handleRespot = (color, table) => {
-    if (table.on === "red") {
-      table.colors[color] -= 1;
-      table.on = "color";
-    } else if (table.on === "color") {
-      table.on = table.colors.red === 0 ? "yellow" : "red";
-    } else {
-      table.colors[color] -= 1;
-      if (color !== "black") {
-        let nextColor =
-          Helpers.colorOrder[Helpers.colorOrder.indexOf(color) + 1];
-        table.on = nextColor;
+    newState.table = Helpers.getNewTableStateAfterPot(color, newState.table);
+    if (Helpers.isTableCleared(newState.table)) {
+      let winner = Helpers.getWinner(newState);
+      if (winner === null) {
+        newState.table.blackRespotted = true;
+        newState.table.on = "black";
+        //TODO:Randomise playerAtTableOnRespot
       } else {
-        table.on = null;
+        newState.inPlay = false;
+        newState.winner = winner;
       }
     }
-    return table;
+    this.setState(newState);
+    if (!newState.inPlay) {
+      this.handleEndGame(newState);
+    }
   };
 
   handleEndTurn = () => {
@@ -91,6 +91,18 @@ class App extends Component {
     this.handleEndTurn();
   };
 
+  handleConcede = (playerConceding) => {};
+
+  handleEndGame = (state) => {
+    let newState = { ...state };
+    state[newState.winner].frames += 1;
+    this.setState(newState);
+  };
+
+  handleNewGame = () => {
+    //TODO: Reset winner, inplay, table, blackRespotted, breaks
+  };
+
   render() {
     return (
       <div className="App">
@@ -101,6 +113,7 @@ class App extends Component {
         />
         <ButtonPanel
           table={this.state.table}
+          inPlay={this.state.inPlay}
           onPot={this.handlePot}
           onFoul={this.handleFoul}
           onEndTurn={this.handleEndTurn}

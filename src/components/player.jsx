@@ -14,6 +14,7 @@ const Player = (props) => {
       <h3>{props.name}</h3>
       <h3>{props.score}</h3>
       <BreakText {...props} />
+      <h4>({props.frames})</h4>
     </div>
   );
 };

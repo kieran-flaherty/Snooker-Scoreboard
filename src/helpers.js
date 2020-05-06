@@ -36,6 +36,9 @@ const Helpers = {
     }
     return null;
   },
+  getRandomPlayer: () => {
+    return Math.random() < 0.5 ? "player1" : "player2";
+  },
   isTableCleared: (table) => {
     let remaining = [];
     remaining = Object.keys(table.colors).filter((c) => {

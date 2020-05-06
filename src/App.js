@@ -3,6 +3,7 @@ import "./App.css";
 import ButtonPanel from "./components/buttonPanel";
 import Players from "./components/players";
 import Helpers from "./helpers";
+import InfoPanel from "./components/infoPanel";
 
 class App extends Component {
   constructor(props) {
@@ -22,16 +23,16 @@ class App extends Component {
       },
       table: {
         colors: {
-          red: 2,
-          yellow: 1,
-          green: 1,
-          brown: 1,
-          blue: 1,
-          pink: 1,
+          red: 0,
+          yellow: 0,
+          green: 0,
+          brown: 0,
+          blue: 0,
+          pink: 0,
           black: 1,
         },
         blackRespotted: null,
-        on: "red",
+        on: "black",
       },
       playerAtTable: "player1",
       winner: null,
@@ -52,7 +53,9 @@ class App extends Component {
       if (winner === null) {
         newState.table.blackRespotted = true;
         newState.table.on = "black";
-        //TODO:Randomise playerAtTableOnRespot
+        newState.player1.break = 0;
+        newState.player2.break = 0;
+        newState.playerAtTable = Helpers.getRandomPlayer();
       } else {
         newState.inPlay = false;
         newState.winner = winner;
@@ -111,6 +114,7 @@ class App extends Component {
           player2={this.state.player2}
           playerAtTable={this.state.playerAtTable}
         />
+        <InfoPanel {...this.state} />
         <ButtonPanel
           table={this.state.table}
           inPlay={this.state.inPlay}

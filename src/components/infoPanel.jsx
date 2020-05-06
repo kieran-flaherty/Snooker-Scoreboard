@@ -4,6 +4,8 @@ const InfoPanel = (props) => {
   let info = "";
   if (props.table.blackRespotted === true) {
     info += "Respotted Black";
+  } else if (props.winner !== null) {
+    info += `Frame winner: ${props[props.winner].name}`;
   }
   return (
     <div className="text-center p-4">

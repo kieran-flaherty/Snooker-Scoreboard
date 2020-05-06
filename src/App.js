@@ -98,7 +98,8 @@ class App extends Component {
 
   handleEndGame = (state) => {
     let newState = { ...state };
-    state[newState.winner].frames += 1;
+    newState[state.winner].frames += 1;
+    newState.table.blackRespotted = false;
     this.setState(newState);
   };
 

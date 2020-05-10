@@ -7,7 +7,7 @@ const fouls = ["brown", "blue", "pink", "black"];
 const NewGameButton = () => {
   return (
     <button className="btn btn-lg p-1">
-      <span className="badge badge-light">New Game</span>
+      <span className="badge badge-light">New Frame</span>
     </button>
   );
 };

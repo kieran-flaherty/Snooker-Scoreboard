@@ -12,27 +12,27 @@ class App extends Component {
       player1: {
         name: "Ronnie O'Sullivan",
         frames: 1,
-        score: 54,
+        score: 74,
         break: 0,
       },
       player2: {
         name: "Judd Trump",
         frames: 0,
-        score: 61,
+        score: 3,
         break: null,
       },
       table: {
         colors: {
-          red: 0,
-          yellow: 0,
-          green: 0,
-          brown: 0,
-          blue: 0,
-          pink: 0,
+          red: 3,
+          yellow: 1,
+          green: 1,
+          brown: 1,
+          blue: 1,
+          pink: 1,
           black: 1,
         },
         blackRespotted: null,
-        on: "black",
+        on: "red",
       },
       playerAtTable: "player1",
       winner: null,
@@ -40,31 +40,63 @@ class App extends Component {
     };
   }
 
-  handlePot = (color) => {
+  addPotScoreToBreak = (state, color) => {
+    let currentPlayer = state.playerAtTable;
     let ballScore = Helpers.ballValues[color];
-    let playerScore = this.state[this.state.playerAtTable].score + ballScore;
-    let playerBreak = this.state[this.state.playerAtTable].break + ballScore;
+    state[currentPlayer].score = state[currentPlayer].score + ballScore;
+    state[currentPlayer].break = state[currentPlayer].break + ballScore;
+    return state;
+  };
+
+  getNewTableStateAfterPot = (color, table) => {
+    if (table.on === "red") {
+      table.colors[color] -= 1;
+      table.on = "color";
+    } else if (table.on === "color") {
+      table.on = table.colors.red === 0 ? "yellow" : "red";
+    } else {
+      table.colors[color] -= 1;
+      if (color !== "black") {
+        let nextColor =
+          Helpers.colorOrder[Helpers.colorOrder.indexOf(color) + 1];
+        table.on = nextColor;
+      } else {
+        table.on = null;
+      }
+    }
+    return table;
+  };
+
+  respotBlack = (state) => {
+    state.table.blackRespotted = true;
+    state.table.on = "black";
+    state.player1.break = 0;
+    state.player2.break = 0;
+    state.playerAtTable = Helpers.getRandomPlayer();
+    return state;
+  };
+
+  endFrame = (state, winner) => {
+    state.inPlay = false;
+    state.winner = winner;
+    state[state.winner].frames += 1;
+    state.table.blackRespotted = false;
+    return state;
+  };
+
+  handlePot = (color) => {
     let newState = { ...this.state };
-    newState[this.state.playerAtTable].score = playerScore;
-    newState[this.state.playerAtTable].break = playerBreak;
-    newState.table = Helpers.getNewTableStateAfterPot(color, newState.table);
+    newState = this.addPotScoreToBreak(newState, color);
+    newState.table = this.getNewTableStateAfterPot(color, newState.table);
     if (Helpers.isTableCleared(newState.table)) {
       let winner = Helpers.getWinner(newState);
       if (winner === null) {
-        newState.table.blackRespotted = true;
-        newState.table.on = "black";
-        newState.player1.break = 0;
-        newState.player2.break = 0;
-        newState.playerAtTable = Helpers.getRandomPlayer();
+        newState = this.respotBlack(newState);
       } else {
-        newState.inPlay = false;
-        newState.winner = winner;
+        newState = this.endFrame(newState, winner);
       }
     }
     this.setState(newState);
-    if (!newState.inPlay) {
-      this.handleEndGame(newState);
-    }
   };
 
   handleEndTurn = () => {
@@ -96,15 +128,8 @@ class App extends Component {
 
   handleConcede = (playerConceding) => {};
 
-  handleEndGame = (state) => {
-    let newState = { ...state };
-    newState[state.winner].frames += 1;
-    newState.table.blackRespotted = false;
-    this.setState(newState);
-  };
-
-  handleNewGame = () => {
-    //TODO: Reset winner, inplay, table, blackRespotted, breaks
+  handleNewFrame = () => {
+    //TODO: Reset winner, inplay, table, breaks
   };
 
   render() {

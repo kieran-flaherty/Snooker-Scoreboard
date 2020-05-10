@@ -1,3 +1,3 @@
-# Snooker scoreboard
+# Snooker scoreboard - WIP
 
-A simple scoreboard for the game of snooker written in react, using bootstrap for styling
+A simple scoreboard for the game of snooker written in react

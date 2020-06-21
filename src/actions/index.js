@@ -11,3 +11,10 @@ export const pot = (color) => {
     payload: { color },
   };
 };
+
+export const foul = (color) => {
+  return {
+    type: actionTypes.FOUL,
+    payload: { color },
+  };
+};

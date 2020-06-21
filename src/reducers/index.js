@@ -54,10 +54,36 @@ const getStateAfterPot = (state, color) => {
   });
 };
 
+const getStateAfterFoul = (state, color) => {
+  let foulValue = Helpers.ballValues[color];
+  let otherPlayer = Helpers.getOtherPlayer(state.playerAtTable);
+  return produce(state, (draftState) => {
+    draftState[otherPlayer].score += foulValue;
+    if (draftState.table.on !== "red") {
+      if (draftState.table.on === "color") {
+        if (draftState.table.colors.red > 0) {
+          draftState.table.on = "red";
+        } else {
+          draftState.table.on = "yellow";
+        }
+      }
+    }
+    draftState[draftState.playerAtTable].break = null;
+    draftState.playerAtTable = Helpers.getOtherPlayer(draftState.playerAtTable);
+    draftState[draftState.playerAtTable].break = 0;
+  });
+};
+
 const rootReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.POT:
       return getStateAfterPot(state, action.payload.color);
+    case actionTypes.FOUL:
+      return getStateAfterFoul(state, action.payload.color);
+    case actionTypes.NO_SCORE:
+    //TODO: Implement no score
+    case actionTypes.NEW_GAME:
+    //TODO: Implement new game
     default:
       return state;
   }

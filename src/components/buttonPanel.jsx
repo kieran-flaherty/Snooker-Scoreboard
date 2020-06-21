@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./buttonPanel.css";
 import Helpers from "./../helpers";
+import { connect } from "react-redux";
+import { pot } from "../actions";
 
 const fouls = ["brown", "blue", "pink", "black"];
 
@@ -87,4 +89,16 @@ class ButtonPanel extends Component {
   }
 }
 
-export default ButtonPanel;
+let mapStateToProps = (state) => ({
+  table: state.table,
+  inPlay: state.inPlay,
+});
+
+// onPot={this.handlePot}
+// onFoul={this.handleFoul}
+// onEndTurn={this.handleEndTurn}
+let mapDispatchToProps = (dispatch) => ({
+  onPot: (color) => dispatch(pot(color)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonPanel);

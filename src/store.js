@@ -1,4 +1,5 @@
 import { createStore } from "redux";
+import rootReducer from "./reducers";
 
 let testState = {
   player1: {
@@ -31,4 +32,4 @@ let testState = {
   inPlay: true,
 };
 
-export const store = createStore((state) => state, testState);
+export const store = createStore(rootReducer, testState);

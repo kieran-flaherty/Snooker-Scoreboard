@@ -74,6 +74,23 @@ const getStateAfterFoul = (state, color) => {
   });
 };
 
+const getStateAfterNoScore = (state) => {
+  return produce(state, (draftState) => {
+    if (draftState.table.on !== "red") {
+      if (draftState.table.on === "color") {
+        if (draftState.table.colors.red > 0) {
+          draftState.table.on = "red";
+        } else {
+          draftState.table.on = "yellow";
+        }
+      }
+    }
+    draftState[draftState.playerAtTable].break = null;
+    draftState.playerAtTable = Helpers.getOtherPlayer(draftState.playerAtTable);
+    draftState[draftState.playerAtTable].break = 0;
+  });
+};
+
 const rootReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.POT:
@@ -81,7 +98,7 @@ const rootReducer = (state, action) => {
     case actionTypes.FOUL:
       return getStateAfterFoul(state, action.payload.color);
     case actionTypes.NO_SCORE:
-    //TODO: Implement no score
+      return getStateAfterNoScore(state);
     case actionTypes.NEW_GAME:
     //TODO: Implement new game
     default:

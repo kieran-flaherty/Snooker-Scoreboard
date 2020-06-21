@@ -18,3 +18,9 @@ export const foul = (color) => {
     payload: { color },
   };
 };
+
+export const noScore = () => {
+  return {
+    type: actionTypes.NO_SCORE,
+  };
+};

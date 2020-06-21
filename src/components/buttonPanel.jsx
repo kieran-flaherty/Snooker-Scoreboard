@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./buttonPanel.css";
 import Helpers from "./../helpers";
 import { connect } from "react-redux";
-import { pot, foul } from "../actions";
+import { pot, foul, noScore } from "../actions";
 
 const fouls = ["brown", "blue", "pink", "black"];
 
@@ -94,12 +94,10 @@ let mapStateToProps = (state) => ({
   inPlay: state.inPlay,
 });
 
-// onPot={this.handlePot}
-// onFoul={this.handleFoul}
-// onEndTurn={this.handleEndTurn}
 let mapDispatchToProps = (dispatch) => ({
   onPot: (color) => dispatch(pot(color)),
   onFoul: (color) => dispatch(foul(color)),
+  onEndTurn: () => dispatch(noScore()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ButtonPanel);

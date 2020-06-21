@@ -6,23 +6,6 @@ import Helpers from "./helpers";
 import InfoPanel from "./components/infoPanel";
 
 class App extends Component {
-  // respotBlack = (state) => {
-  //   state.table.blackRespotted = true;
-  //   state.table.on = "black";
-  //   state.player1.break = 0;
-  //   state.player2.break = 0;
-  //   state.playerAtTable = Helpers.getRandomPlayer();
-  //   return state;
-  // };
-
-  // endFrame = (state, winner) => {
-  //   state.inPlay = false;
-  //   state.winner = winner;
-  //   state[state.winner].frames += 1;
-  //   state.table.blackRespotted = false;
-  //   return state;
-  // };
-
   // handleEndTurn = () => {
   //   let newState = { ...this.state };
   //   if (this.state.table.on !== "red") {

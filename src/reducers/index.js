@@ -20,28 +20,37 @@ const getNewTableStateAfterPot = (color, table) => {
   return table;
 };
 
-// handlePot = (color) => {
-//   let newState = { ...this.state };
-//   newState = this.addPotScoreToBreak(newState, color);
-//   newState.table = this.getNewTableStateAfterPot(color, newState.table);
-//   if (Helpers.isTableCleared(newState.table)) {
-//     let winner = Helpers.getWinner(newState);
-//     if (winner === null) {
-//       newState = this.respotBlack(newState);
-//     } else {
-//       newState = this.endFrame(newState, winner);
-//     }
-//   }
-// };
+const respotBlack = (state) => {
+  state.table.blackRespotted = true;
+  state.table.on = "black";
+  state.player1.break = 0;
+  state.player2.break = 0;
+  state.playerAtTable = Helpers.getRandomPlayer();
+  return state;
+};
+
+const endFrame = (state, winner) => {
+  state.inPlay = false;
+  state.winner = winner;
+  state[winner].frames += 1;
+  state.table.blackRespotted = false;
+};
 
 const getStateAfterPot = (state, color) => {
   let currentPlayer = state.playerAtTable;
   let ballScore = Helpers.ballValues[color];
-  // TODO: Add respot and frame ending logic here
   return produce(state, (draftState) => {
     draftState[currentPlayer].score += ballScore;
     draftState[currentPlayer].break += ballScore;
     draftState.table = getNewTableStateAfterPot(color, draftState.table);
+    if (Helpers.isTableCleared(draftState.table)) {
+      let winner = Helpers.getWinner(draftState);
+      if (winner === null) {
+        respotBlack(draftState);
+      } else {
+        endFrame(draftState, winner);
+      }
+    }
   });
 };
 

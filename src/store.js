@@ -32,4 +32,8 @@ let testState = {
   inPlay: true,
 };
 
-export const store = createStore(rootReducer, testState);
+export const store = createStore(
+  rootReducer,
+  testState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);

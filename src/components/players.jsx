@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Player from "./player";
 import "./players.css";
+import { connect } from "react-redux";
 
 class Players extends Component {
   render() {
@@ -16,4 +17,12 @@ class Players extends Component {
   }
 }
 
-export default Players;
+let mapStateToProps = (state) => {
+  return {
+    player1: state.player1,
+    player2: state.player2,
+    playerAtTable: state.playerAtTable,
+  };
+};
+
+export default connect(mapStateToProps)(Players);

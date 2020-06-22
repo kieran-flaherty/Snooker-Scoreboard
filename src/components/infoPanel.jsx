@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 const InfoPanel = (props) => {
   let info = "";
@@ -14,4 +15,11 @@ const InfoPanel = (props) => {
   );
 };
 
-export default InfoPanel;
+let mapStateToProps = (state) => ({
+  player1: state.player1,
+  player2: state.player2,
+  table: state.table,
+  winner: state.winner,
+});
+
+export default connect(mapStateToProps)(InfoPanel);

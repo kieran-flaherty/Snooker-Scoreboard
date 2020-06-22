@@ -41,6 +41,21 @@ const Helpers = {
     black: 7,
   },
   colorOrder: ["yellow", "green", "brown", "blue", "pink", "black"],
+  reRackedTable: () => {
+    return {
+      colors: {
+        red: 15,
+        yellow: 1,
+        green: 1,
+        brown: 1,
+        blue: 1,
+        pink: 1,
+        black: 1,
+      },
+      blackRespotted: null,
+      on: "red",
+    };
+  },
 };
 
 export default Helpers;

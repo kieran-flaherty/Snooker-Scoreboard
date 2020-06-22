@@ -91,6 +91,21 @@ const getStateAfterNoScore = (state) => {
   });
 };
 
+const getStateAfterNewFrame = (state) => {
+  return produce(state, (draftState) => {
+    draftState.inPlay = true;
+    // TODO: mechanism that stores player who broke off and replace here
+    draftState.playerAtTable = Helpers.getRandomPlayer();
+    draftState.player1.break = 0;
+    draftState.player1.score = 0;
+    draftState.player2.break = 0;
+    draftState.player2.score = 0;
+    draftState.winner = null;
+    draftState.inPlay = true;
+    draftState.table = Helpers.reRackedTable();
+  });
+};
+
 const rootReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.POT:
@@ -99,8 +114,8 @@ const rootReducer = (state, action) => {
       return getStateAfterFoul(state, action.payload.color);
     case actionTypes.NO_SCORE:
       return getStateAfterNoScore(state);
-    case actionTypes.NEW_GAME:
-    //TODO: Implement new game
+    case actionTypes.NEW_FRAME:
+      return getStateAfterNewFrame(state);
     default:
       return state;
   }

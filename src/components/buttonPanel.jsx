@@ -2,24 +2,28 @@ import React, { Component } from "react";
 import "./buttonPanel.css";
 import Helpers from "./../helpers";
 import { connect } from "react-redux";
-import { pot, foul, noScore } from "../actions";
+import { pot, foul, noScore, newFrame } from "../actions";
 
 const fouls = ["brown", "blue", "pink", "black"];
 
-const NewGameButton = () => {
-  return (
-    <button className="btn btn-lg p-1">
-      <span className="badge badge-light">New Frame</span>
-    </button>
-  );
-};
-
 class ButtonPanel extends Component {
-  noScoreButton = () => {
+  NoScoreButton = () => {
     return (
-      <button className="btn btn-lg p-1" onClick={this.props.onEndTurn}>
-        <span className="badge badge-light">No Score</span>
-      </button>
+      <div className="text-center">
+        <button className="btn btn-lg p-1" onClick={this.props.onEndTurn}>
+          <span className="badge badge-light">No Score</span>
+        </button>
+      </div>
+    );
+  };
+
+  NewGameButton = () => {
+    return (
+      <div className="text-center">
+        <button className="btn btn-lg p-1" onClick={this.props.onEndFrame}>
+          <span className="badge badge-light">New Frame</span>
+        </button>
+      </div>
     );
   };
 
@@ -75,7 +79,7 @@ class ButtonPanel extends Component {
               return this.getButtonForColor(color, false);
             })}
           </div>
-          <div className="text-center">{this.noScoreButton()}</div>
+          {this.NoScoreButton()}
           <div className="text-center">
             {fouls.map((foul) => {
               return this.getButtonForColor(foul, true);
@@ -84,7 +88,7 @@ class ButtonPanel extends Component {
         </React.Fragment>
       );
     } else {
-      return <div className="text-center">{NewGameButton()}</div>;
+      return this.NewGameButton();
     }
   }
 }
@@ -98,6 +102,7 @@ let mapDispatchToProps = (dispatch) => ({
   onPot: (color) => dispatch(pot(color)),
   onFoul: (color) => dispatch(foul(color)),
   onEndTurn: () => dispatch(noScore()),
+  onEndFrame: () => dispatch(newFrame()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ButtonPanel);

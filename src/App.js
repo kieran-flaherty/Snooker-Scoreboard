@@ -6,15 +6,11 @@ import Helpers from "./helpers";
 import InfoPanel from "./components/infoPanel";
 
 class App extends Component {
-  // handleNewFrame = () => {
-  //   //TODO: Reset winner, inplay, table, breaks
-  // };
-
   render() {
     return (
       <div className="App">
         <Players />
-        {/* <InfoPanel {...this.state} /> */}
+        <InfoPanel />
         <ButtonPanel></ButtonPanel>
       </div>
     );

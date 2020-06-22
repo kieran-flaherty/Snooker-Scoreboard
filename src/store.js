@@ -1,22 +1,22 @@
 import { createStore } from "redux";
 import rootReducer from "./reducers";
 
-let testState = {
+let initialState = {
   player1: {
     name: "Ronnie O'Sullivan",
-    frames: 1,
-    score: 74,
+    frames: 0,
+    score: 0,
     break: 0,
   },
   player2: {
     name: "Judd Trump",
     frames: 0,
-    score: 3,
+    score: 0,
     break: null,
   },
   table: {
     colors: {
-      red: 3,
+      red: 15,
       yellow: 1,
       green: 1,
       brown: 1,
@@ -34,6 +34,6 @@ let testState = {
 
 export const store = createStore(
   rootReducer,
-  testState,
+  initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

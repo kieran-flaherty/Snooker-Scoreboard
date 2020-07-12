@@ -3,6 +3,7 @@ import rootReducer from "./reducers";
 
 let initialState = {
   player1: {
+    //TODO add feature for editing players names
     name: "Ronnie O'Sullivan",
     frames: 0,
     score: 0,

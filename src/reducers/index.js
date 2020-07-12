@@ -55,6 +55,7 @@ const getStateAfterPot = (state, color) => {
 };
 
 const getStateAfterFoul = (state, color) => {
+  //TODO handle free ball, miss rule
   let foulValue = Helpers.ballValues[color];
   let otherPlayer = Helpers.getOtherPlayer(state.playerAtTable);
   return produce(state, (draftState) => {

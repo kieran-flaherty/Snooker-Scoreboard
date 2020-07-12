@@ -31,6 +31,7 @@ const Helpers = {
     }
     return true;
   },
+  //TODO make ballValues and colorOrder functions
   ballValues: {
     red: 1,
     yellow: 2,

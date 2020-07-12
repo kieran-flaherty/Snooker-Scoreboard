@@ -70,6 +70,8 @@ class ButtonPanel extends Component {
   };
 
   render() {
+    // TODO refactor this panel into smaller components
+    // TODO add feature to select breaking player in this component at start of game
     let availableBalls = this.getAvailableBalls();
     if (this.props.inPlay) {
       return (
